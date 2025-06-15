@@ -12,7 +12,9 @@
       background: linear-gradient(to bottom right, #ffe0ec, #fffdfd);
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
+      overflow-x: hidden;
     }
+
     .container {
       max-width: 100%;
       margin: auto;
@@ -21,11 +23,13 @@
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
     h1 {
       font-size: 28px;
       color: #ff1493;
       margin: 20px 0;
     }
+
     button {
       display: block;
       width: 90%;
@@ -41,6 +45,7 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       cursor: pointer;
     }
+
     .typing {
       font-size: 18px;
       color: #333;
@@ -49,20 +54,46 @@
       border-radius: 10px;
       min-height: 100px;
     }
-    .gallery {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-      margin-top: 20px;
+
+    /* Carousel Styles */
+    .carousel {
+      position: relative;
+      max-width: 100%;
+      margin: 20px auto;
     }
-    .gallery img {
+
+    .carousel img {
       width: 100%;
+      height: auto;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: none;
     }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    /* Balloons */
+    .balloon {
+      position: fixed;
+      bottom: -100px;
+      width: 50px;
+      height: 70px;
+      background: red;
+      border-radius: 50% 50% 50% 50%;
+      animation: floatUp 6s linear infinite;
+      z-index: 10;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
     @media(min-width: 600px) {
-      .gallery {
-        grid-template-columns: repeat(3, 1fr);
+      .typing {
+        font-size: 20px;
       }
     }
   </style>
@@ -77,10 +108,10 @@
 
     <div class="typing" id="messageBox" style="display:none;"></div>
 
-    <div class="gallery" id="gallery" style="display:none;">
-      <img src="IMG_3731.jpeg" alt="Memory 1">
-      <img src="IMG_3732.jpeg" alt="Memory 2">
-      <img src="IMG_3733.jpeg" alt="Memory 3">
+    <div class="carousel" id="carousel" style="display:none;">
+      <img src="IMG_3731.jpeg" class="active" />
+      <img src="IMG_3732.jpeg" />
+      <img src="IMG_3733.jpeg" />
     </div>
   </div>
 
@@ -93,7 +124,7 @@
     const btn3 = document.getElementById("btn3");
     const mainHeading = document.getElementById("mainHeading");
     const messageBox = document.getElementById("messageBox");
-    const gallery = document.getElementById("gallery");
+    const carousel = document.getElementById("carousel");
     const song = document.getElementById("bgSong");
 
     const message = `Kanchan, today is your day! ✨
@@ -125,8 +156,39 @@ Happy Birthday! 🎂❤️`;
 
     btn3.addEventListener("click", () => {
       btn3.style.display = "none";
-      gallery.style.display = "block";
+      carousel.style.display = "block";
+      launchBalloons();
+      startCarousel();
     });
+
+    // Balloon Generator
+    function launchBalloons() {
+      for (let i = 0; i < 15; i++) {
+        const balloon = document.createElement("div");
+        balloon.className = "balloon";
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.backgroundColor = getRandomColor();
+        balloon.style.animationDelay = Math.random() * 3 + "s";
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 7000);
+      }
+    }
+
+    function getRandomColor() {
+      const colors = ["#ff4d4d", "#ff99cc", "#ffcc00", "#66ccff", "#99ff99"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Auto Carousel
+    let slideIndex = 0;
+    function startCarousel() {
+      const slides = document.querySelectorAll(".carousel img");
+      setInterval(() => {
+        slides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add("active");
+      }, 3000);
+    }
   </script>
 </body>
 </html>
