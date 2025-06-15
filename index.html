@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday Kanchan 🎉</title>
-
-  <!-- Animate.css for smooth animations -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
   <style>
     body {
       margin: 0;
@@ -16,8 +13,6 @@
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
     }
-
-    
     .container {
       max-width: 100%;
       margin: auto;
@@ -26,13 +21,11 @@
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-
     h1 {
-      margin-bottom: 10px;
       font-size: 28px;
       color: #ff1493;
+      margin: 20px 0;
     }
-
     button {
       display: block;
       width: 90%;
@@ -48,29 +41,25 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       cursor: pointer;
     }
-
     .typing {
       font-size: 18px;
       color: #333;
       padding: 10px;
       white-space: pre-wrap;
       border-radius: 10px;
-      min-height: 150px;
+      min-height: 100px;
     }
-
     .gallery {
       display: grid;
       grid-template-columns: 1fr;
       gap: 15px;
       margin-top: 20px;
     }
-
     .gallery img {
       width: 100%;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-
     @media(min-width: 600px) {
       .gallery {
         grid-template-columns: repeat(3, 1fr);
@@ -80,33 +69,32 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="animate__animated animate__heartBeat">🎂 Happy Birthday Kanchan! 🎉</h1>
+    <h1 id="mainHeading" class="animate__animated">🎁 Tap to Unlock Your Surprise</h1>
 
-    <button id="startBtn" class="animate__animated animate__bounce">🎁 Tap to Open Your Surprise</button>
+    <button id="btn1">Tap to Unlock</button>
+    <button id="btn2" style="display:none;">Next Gift 🎈</button>
+    <button id="btn3" style="display:none;">Open Memories 📸</button>
 
-    <div id="surprise" style="display:none;">
-      <div class="typing" id="messageBox"></div>
+    <div class="typing" id="messageBox" style="display:none;"></div>
 
-      <div class="gallery">
-        <img src="IMG_3731.jpg" alt="Memory 1">
-        <img src="IMG_3732.jpg" alt="Memory 2">
-        <img src="IMG_3733.jpg" alt="Memory 3">
-      </div>
+    <div class="gallery" id="gallery" style="display:none;">
+      <img src="IMG_3731.jpeg" alt="Memory 1">
+      <img src="IMG_3732.jpeg" alt="Memory 2">
+      <img src="IMG_3733.jpeg" alt="Memory 3">
     </div>
   </div>
 
-  <!-- Background song -->
-  <audio id="bgSong" src="songs/song1.mp3"></audio>
-
-  <!-- Confetti -->
+  <audio id="bgSong" src="song1.mp3"></audio>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-  <!-- Typing Animation -->
   <script>
-    const startBtn = document.getElementById("startBtn");
-    const surprise = document.getElementById("surprise");
-    const song = document.getElementById("bgSong");
+    const btn1 = document.getElementById("btn1");
+    const btn2 = document.getElementById("btn2");
+    const btn3 = document.getElementById("btn3");
+    const mainHeading = document.getElementById("mainHeading");
     const messageBox = document.getElementById("messageBox");
+    const gallery = document.getElementById("gallery");
+    const song = document.getElementById("bgSong");
 
     const message = `Kanchan, today is your day! ✨
 Wishing you smiles, sunshine, and everything beautiful — just like you.
@@ -119,16 +107,25 @@ Happy Birthday! 🎂❤️`;
       }
     }
 
-    startBtn.addEventListener("click", () => {
-      startBtn.style.display = "none";
-      surprise.style.display = "block";
+    btn1.addEventListener("click", () => {
+      btn1.style.display = "none";
+      mainHeading.textContent = "🎉 Happy Birthday Kanchan!";
+      mainHeading.classList.add("animate__fadeInDown");
+      confetti({ particleCount: 100, spread: 100, origin: { y: 0.6 } });
       song.play();
+      btn2.style.display = "block";
+    });
+
+    btn2.addEventListener("click", () => {
+      btn2.style.display = "none";
+      messageBox.style.display = "block";
       typeMessage(message);
-      confetti({
-        particleCount: 120,
-        spread: 100,
-        origin: { y: 0.6 }
-      });
+      btn3.style.display = "block";
+    });
+
+    btn3.addEventListener("click", () => {
+      btn3.style.display = "none";
+      gallery.style.display = "block";
     });
   </script>
 </body>
