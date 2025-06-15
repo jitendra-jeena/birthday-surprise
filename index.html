@@ -2,97 +2,134 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Happy Birthday!</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Animate.css for animations -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Kanchan 🎉</title>
+
+  <!-- Animate.css for smooth animations -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #fff0f5;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(to bottom right, #ffe0ec, #fffdfd);
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      padding: 40px;
     }
+
+    
     .container {
-      max-width: 600px;
+      max-width: 100%;
       margin: auto;
-      background: #ffe4e1;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      background: #ffffffcc;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      color: #ff1493;
+    }
+
     button {
-      padding: 10px 15px;
-      margin: 10px;
+      display: block;
+      width: 90%;
+      max-width: 300px;
+      margin: 20px auto;
+      padding: 14px;
       font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
+      border-radius: 10px;
+      border: none;
       background-color: #ff69b4;
       color: white;
-      border: none;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
     }
-    img {
-      width: 300px;
-      margin-top: 20px;
+
+    .typing {
+      font-size: 18px;
+      color: #333;
+      padding: 10px;
+      white-space: pre-wrap;
       border-radius: 10px;
+      min-height: 150px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    @media(min-width: 600px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="animate__animated animate__heartBeat">🎉 Happy Birthday, [Her Name]! 🎉</h1>
-    <button id="openSurprise" class="animate__animated animate__bounce">Open Your Surprise</button>
+    <h1 class="animate__animated animate__heartBeat">🎂 Happy Birthday Kanchan! 🎉</h1>
 
-    <div id="surpriseContent" style="display:none;">
-      <h2 class="animate__animated animate__fadeInDown">Here are some memories and songs for you 💖</h2>
+    <button id="startBtn" class="animate__animated animate__bounce">🎁 Tap to Open Your Surprise</button>
 
-      <button onclick="showImage('img1')">Image 1</button>
-      <button onclick="showImage('img2')">Image 2</button>
-      <button onclick="playSong('song1')">Play Song 1</button>
-      <button onclick="playSong('song2')">Play Song 2</button>
+    <div id="surprise" style="display:none;">
+      <div class="typing" id="messageBox"></div>
 
-      <div id="displayArea">
-        <!-- Replace these with your real image paths -->
-        <img id="img1" src="images/pic1.jpg" style="display:none;" />
-        <img id="img2" src="images/pic2.jpg" style="display:none;" />
-        <!-- Replace with your song files -->
-        <audio id="song1" src="songs/song1.mp3"></audio>
-        <audio id="song2" src="songs/song2.mp3"></audio>
+      <div class="gallery">
+        <img src="images/pic1.jpg" alt="Memory 1">
+        <img src="images/pic2.jpg" alt="Memory 2">
+        <img src="images/pic3.jpg" alt="Memory 3">
       </div>
     </div>
   </div>
 
-  <!-- JavaScript for interactivity -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-  <script>
-    document.getElementById("openSurprise").onclick = function() {
-      const content = document.getElementById("surpriseContent");
-      content.style.display = "block";
-      content.classList.add("animate__animated", "animate__fadeInUp");
+  <!-- Background song -->
+  <audio id="bgSong" src="songs/song1.mp3"></audio>
 
-      // Confetti effect
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <!-- Typing Animation -->
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const surprise = document.getElementById("surprise");
+    const song = document.getElementById("bgSong");
+    const messageBox = document.getElementById("messageBox");
+
+    const message = `Kanchan, today is your day! ✨
+Wishing you smiles, sunshine, and everything beautiful — just like you.
+Happy Birthday! 🎂❤️`;
+
+    function typeMessage(text, index = 0) {
+      if (index < text.length) {
+        messageBox.textContent += text.charAt(index);
+        setTimeout(() => typeMessage(text, index + 1), 50);
+      }
+    }
+
+    startBtn.addEventListener("click", () => {
+      startBtn.style.display = "none";
+      surprise.style.display = "block";
+      song.play();
+      typeMessage(message);
       confetti({
-        particleCount: 150,
-        spread: 90,
+        particleCount: 120,
+        spread: 100,
         origin: { y: 0.6 }
       });
-    };
-
-    function showImage(imageId) {
-      document.querySelectorAll("#displayArea img").forEach(img => img.style.display = "none");
-      document.getElementById(imageId).style.display = "block";
-    }
-
-    function playSong(songId) {
-      document.querySelectorAll("#displayArea audio").forEach(audio => {
-        audio.pause();
-        audio.currentTime = 0;
-      });
-      const song = document.getElementById(songId);
-      song.play();
-    }
+    });
   </script>
 </body>
 </html>
-
-
